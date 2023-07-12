@@ -62,9 +62,27 @@
                 </div>
 
             -->
+        {% if user.is_authenticated %}
+        <div id="exam" class="collapse">
+                <div class="card">
+                    {% for question in course.question_set.all() %}
+                    <div class="collapse" >
+                        <h2>{question}</h2>
+                        <ul>
+                            {% for choice in question.choice_set.all() %}
+                            <li>{choice}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                    </div>
+            
+            </div>
+            
+        {% endif %} 
 
+        </div>
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
-
+        
             <!-- <HINT> Each example will have many questions -->
 
             <!-- <HINT> Each question will have many choices -->

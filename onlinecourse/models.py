@@ -95,18 +95,35 @@ class Enrollment(models.Model):
     rating = models.FloatField(default=5.0)
 
 class Question(models.Model):
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    question_1 = models.Choices()
+    # Question label and grad point
+    label = models.CharField("Question", max_length = 1000)
     grade_point = 70
+    # Key to course
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
-    def get_valuation(self, selected_ids):
+    # Valuation Function
+    def is_get_score(self, selected_ids):
         all_answers =self.choice_set.filter(is_correct=True).count()
         selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
         if all_answers == selected_correct:
             return True
         else:
             return False
+    
+
 class Choice(models.Model):
+    # Label of choice and boolean variable
+    label = models.CharField("Choice", max_length=500)
+    is_correct = models.BooleanField(default=False)
+    # Key to Question
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    #course = models.ForeignKey(Course, on_delete= models.CASCADE)
+
+class Submission(models.Model):
+    # Keys to Enrollment and Choices
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
+
     
 
 #  <HINT> Create a Choice Model with:
@@ -125,31 +142,3 @@ class Choice(models.Model):
 #    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
 #    choices = models.ManyToManyField(Choice)
 #    Other fields and methods you would like to design
-
-QUESTION_1= "Authentication is a process that does what?"
-    QUESTION_2= "What does Bootstrap provide for Django?"
-    QUESTION_3= "When Django users run a runserver command line, what does it start?"
-    QUESTION_4= "What does Django use name spacing for when you add static files to an app?"
-    QUESTION_MODES = [(QUESTION_1),(QUESTION_2),(QUESTION_3),(QUESTION_4)]
-    
-
-#Question 1 choices
-    Q1_C1 = "Validates User Identity"
-    Q1_C2 = "Checks users access permissions"
-    Q1_C3 = "Creates user credentials"
-    Q1_C4 = "Groups are based on permissions"
-    #Question 2 choices
-    Q2_C1 = "Code examples"
-    Q2_C2 = "Databases"
-    Q2_C3 = "HTML and CSS templates"
-    Q2_C4 = "Server interfaces"
-    #Question 3 choices
-    Q3_C1 = "Storage server"
-    Q3_C2 = "File server"
-    Q3_C3 = "Minimal development web server"
-    Q3_C4 = "Barebones backend server"
-    #Question4 choices
-    Q4_C1 = "Uniquely refers to static files that use the same name, across multiple apps"
-    Q4_C2 = "Tracks static files in each apps"
-    Q4_C3 = "Limits the number of static files in an app"
-    Q4_C4 = "Sorts static files"
