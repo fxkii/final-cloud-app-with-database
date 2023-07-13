@@ -109,6 +109,8 @@ class Question(models.Model):
             return True
         else:
             return False
+    def __str__(self):
+        return self.label
     
 
 class Choice(models.Model):
@@ -118,6 +120,8 @@ class Choice(models.Model):
     # Key to Question
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     #course = models.ForeignKey(Course, on_delete= models.CASCADE)
+    def __str__(self):
+        return self.label
 
 class Submission(models.Model):
     # Keys to Enrollment and Choices

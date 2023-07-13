@@ -63,24 +63,38 @@
 
             -->
         {% if user.is_authenticated %}
-        <div id="exam" class="collapse">
-                <div class="card">
-                    {% for question in course.question_set.all() %}
-                    <div class="collapse" >
-                        <h2>{question}</h2>
-                        <ul>
-                            {% for choice in question.choice_set.all() %}
-                            <li>{choice}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endfor %}
+        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#exam">Show Exams</button>
+        <div id="exam" class="collapse" >
+            <div class="container-fluid">
+                {% if course.question_set.all is not None %}
+                <div class="card-deck">
+                {% for question in course.question_set.all %}
+                <div class="card mt-1">
+                    <div class="container-fluid" >
+                        <table>
+                        <thead class="card-header">
+                            <h3>{{question}}</h3>
+                        </thead>
+                        <tbody class="card-body">
+                        {% if question.choice_set.all is not None %}
+                        {% for choice in question.choice_set.all %}
+                        <tr>
+                            <td>-{{choice}}</td>
+                        </tr>   
+                        {% endfor %}
+                        {% endif %}
+                        </tbody>
+                        </table>
                     </div>
-            
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
-            
+        </div>
         {% endif %} 
 
-        </div>
+    
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
         
             <!-- <HINT> Each example will have many questions -->
