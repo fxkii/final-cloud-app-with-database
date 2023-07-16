@@ -7,31 +7,32 @@ from .models import Course, Lesson, Instructor, Learner, Question, Choice, Submi
 
 class LessonInline(admin.StackedInline):
     model = Lesson
-    extra = 5
+    extra = 3
 
 class QuestionInline(admin.StackedInline):
     model = Question
     extra = 2
 class ChoiceInline(admin.StackedInline):
     model = Choice
-    extra = 3
+    extra = 4
 # Register your models here.
 class CourseAdmin(admin.ModelAdmin):
     inlines = [LessonInline, QuestionInline]
-    list_display = ('name', 'pub_date', "question")
+    list_display = ('name', 'pub_date')
     list_filter = ['pub_date']
     search_fields = ['name', 'description']
-
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ['title']
 
-
+class ChoiceAdmin(admin.ModelAdmin):
+    list_display = ["label"]
+    inlines= [ChoiceInline]
 # <HINT> Register Question and Choice models here
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
 admin.site.register(Learner)
-admin.site.register(Question)
+admin.site.register(Question, ChoiceAdmin)
 admin.site.register(Choice)

@@ -67,7 +67,6 @@ class Course(models.Model):
         return "Name: " + self.name + "," + \
                "Description: " + self.description
 
-
 # Lesson model
 class Lesson(models.Model):
     title = models.CharField(max_length=200, default="title")
@@ -96,7 +95,7 @@ class Enrollment(models.Model):
 
 class Question(models.Model):
     # Question label and grad point
-    label = models.CharField("Question", max_length = 1000)
+    label = models.CharField("question",max_length = 1000)
     grade_point = 70
     # Key to course
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -115,11 +114,13 @@ class Question(models.Model):
 
 class Choice(models.Model):
     # Label of choice and boolean variable
-    label = models.CharField("Choice", max_length=500)
+    label = models.CharField(max_length=500)
     is_correct = models.BooleanField(default=False)
     # Key to Question
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    # Adding key to courses for use in admin
     #course = models.ForeignKey(Course, on_delete= models.CASCADE)
+
     def __str__(self):
         return self.label
 
@@ -127,6 +128,7 @@ class Submission(models.Model):
     # Keys to Enrollment and Choices
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
+    answers = []
 
     
 
