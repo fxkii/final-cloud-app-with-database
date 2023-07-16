@@ -118,8 +118,6 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
     # Key to Question
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    # Adding key to courses for use in admin
-    #course = models.ForeignKey(Course, on_delete= models.CASCADE)
 
     def __str__(self):
         return self.label
@@ -129,7 +127,7 @@ class Submission(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
     answers = []
-
+    
     
 
 #  <HINT> Create a Choice Model with:

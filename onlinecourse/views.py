@@ -87,6 +87,11 @@ class CourseListView(generic.ListView):
 class CourseDetailView(generic.DetailView):
     model = Course
     template_name = 'onlinecourse/course_detail_bootstrap.html'
+class ExamResultView(generic.ListView):
+    template_name = "onlinecourse/exam_result_bootstrap.html"
+    context_object_name = "exam_result"
+    model = Course
+
 
 
 def enroll(request, course_id):
@@ -144,19 +149,13 @@ def show_exam_result(request, course_id, submission_id):
     grade_score = {}
     grade = questions.is_get_score(choices)
     if grade == True:
-        grade_score[question.id]= 1
+        grade_score = 100
     else:
-        grade_score[question.id] = 0
-    score = 3
+        grade_score = 0
 
+    return render(request,"onlinecourse/exam_result_bootstrap.html/")
 
-
-    #if grade == True:
-     #   grade_score[question.id] += 100
-    
-    
-
-    return render(request,"onlinecourse/exam_result_bootstrap.html/",grade_score)
+Submission.objects.all().delete()
     
 
 

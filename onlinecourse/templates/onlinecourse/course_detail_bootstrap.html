@@ -28,7 +28,7 @@
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Username" name="username" >
-                            <input type="password" class="form-control" placeholder="Username" name="psw" >
+                            <input type="password" class="form-control" placeholder="Password" name="psw" >
                             <button class="btn btn-primary" type="submit">Login</button>
                             <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
                         </div>
@@ -50,49 +50,6 @@
                     </div>
                 {% endfor %}
             </div>
-            <!-- Task: show questions and choices -->
-            <!-- <HINT> Use Bootstrap Collapse to hide exam first, more details could be found here
-            https://www.w3schools.com/bootstrap4/bootstrap_collapse.asp-->
-
-            <!--
-
-            A collapse example here:
-            <div id="exam" class="collapse">
-                Click to expand elements within the collapse div
-                </div>
-
-            -->
-        {% if user.is_authenticated %}
-        <!-- <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#exam">Show Exams</button>
-        <div id="exam" class="collapse" >
-            <div class="container-fluid">
-                {% if course.question_set.all is not None %}
-                <div class="card-deck">
-                {% for question in course.question_set.all %}
-                <div class="card mt-1">
-                    <div class="container-fluid" >
-                        <table>
-                        <thead class="card-header">
-                            <h3>{{question}}</h3>
-                        </thead>
-                        <tbody class="card-body">
-                        {% if question.choice_set.all is not None %}
-                        {% for choice in question.choice_set.all %}
-                        <tr>
-                            <td>-{{choice}}</td>
-                        </tr>   
-                        {% endfor %}
-                        {% endif %}
-                        </tbody>
-                        </table>
-                    </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        {% endif %} -->
 
     
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
@@ -106,7 +63,7 @@
             <!-- <HINT> For each question choice, you may create a checkbox input like
             <input type="check" name="choice_{{choice.id}}" id="{{choice.id}}" ...>
             -->
-
+            {% if user.is_authenticated %}
             <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#questionform">Show Exams</button>
             <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
                 {% if course.question_set.all is not None %}        
@@ -136,7 +93,7 @@
                         <h4>Sorry, there are no Exams available at the moment</h4>
                     {% endif %}
             </form> 
-
+            {% endif %}
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
     </div>
