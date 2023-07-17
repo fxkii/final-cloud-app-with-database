@@ -149,13 +149,13 @@ def show_exam_result(request, course_id, submission_id):
     grade_score = {}
     grade = questions.is_get_score(choices)
     if grade == True:
-        grade_score = 100
+        grade_score[submission_id] = 100
     else:
-        grade_score = 0
+        grade_score[submission_id]= 0
 
-    return render(request,"onlinecourse/exam_result_bootstrap.html/")
+    return render(request,"onlinecourse/exam_result_bootstrap.html/",grade_score)
 
-Submission.objects.all().delete()
+
     
 
 
